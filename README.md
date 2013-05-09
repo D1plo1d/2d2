@@ -9,4 +9,6 @@
 
 ### Usage
 
-`forever -w -c coffee app.coffee`
+This works for now but does not reload on file change: `coffee app.coffee`
+
+This does not yet work: `forever -w -c coffee app.coffee`
