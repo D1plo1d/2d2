@@ -4,8 +4,7 @@
 ### Installation
 
 1. Install Nodejs and NPM
-2. `npm install -g https://github.com/balderdashy/sails/tarball/master`
-3. `npm install`
+2. `npm install`
 
 ### Usage
 
