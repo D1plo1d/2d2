@@ -5,6 +5,8 @@
 
 1. Install Nodejs and NPM
 2. `npm install`
+3. `npm install -g bower`
+4. `bower install`
 
 ### Usage
 
