@@ -7,7 +7,7 @@
     "components"
   ],
   "dependencies": {
-        "bootstrap-stylus": "../bootstrap-stylus"
+        "bootstrap-stylus": "*"
       , "font-awesome": "*"
       , "sugar": "*"
       , "jquery": "*"
