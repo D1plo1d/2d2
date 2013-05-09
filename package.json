@@ -1,0 +1,29 @@
+{
+    "name": "2d2",
+    "private": true,
+    "version": "0.0.0",
+    "description": "a Sails application",
+    "dependencies": {
+          "passport": "*"
+        , "passport-local": "*"
+        , "optimist": "*"
+        , "jade": "*"
+        , "forever": "0.10.0"
+        , "stylus": "https://github.com/blakeembrey/stylus/tarball/file-glob"
+        , "asset-rack": "https://github.com/D1plo1d/asset-rack/tarball/master"
+        , "sails": "https://github.com/D1plo1d/sails/tarball/master"
+    },
+    "scripts": {
+        "start": "node .app.js",
+        "debug": "node debug .app.js"
+    },
+    "main": ".app.js",
+    "repository": "",
+    "author": "",
+    "license": "MIT",
+    "engines": {
+        "node": ">=0.10.x",
+        "npm": ">=1.1.x",
+        "coffee-script": ">= 1.0.0"
+    }
+}

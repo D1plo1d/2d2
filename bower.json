@@ -1,0 +1,22 @@
+{
+  "name": "2d2",
+  "version": "0.0.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+        "bootstrap-stylus": "../bootstrap-stylus"
+      , "font-awesome": "*"
+      , "sugar": "*"
+      , "jquery": "*"
+
+      , "angular": "~1.0.5"
+      , "json3": "~3.2.4"
+      , "es5-shim": "~2.0.8"
+      , "angular-resource": "~1.0.5"
+      , "angular-cookies": "~1.0.5"
+      , "angular-sanitize": "~1.0.5"
+    }
+}
