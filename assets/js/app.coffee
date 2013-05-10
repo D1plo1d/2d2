@@ -9,7 +9,9 @@
 #= require "../../components/angular-resource/angular-resource.js"
 #= require "../../components/angular-sanitize/angular-sanitize.js"
 
-#= require "test"
+#= require "../../components/svg.js/dist/svg.js"
+
+#= require "svg_sketch"
 
 console.log "app"
 # var

@@ -1,14 +1,17 @@
-.container-fluid
-  .row-fluid
-    .span12
-      .auth-btns.pull-right
-        a.btn(href="/") Sign Out
-      h1 2D2: Sketch
+.sketch-body
+  .header
+    .container-fluid
+      .row-fluid
+        .span12
+          .auth-btns.pull-right
+            a.btn(href="/") Sign Out
+          h1 2D2: Sketch
+  svg.canvas(preserveAspectRatio="none")
 
-      .sketch-menu
-        .hub
-        ul
-          li line
-          li circle
-          li arc
-          li path
+.sketch-menu
+  .hub
+  ul
+    li line
+    li circle
+    li arc
+    li path
