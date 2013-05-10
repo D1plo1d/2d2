@@ -24,6 +24,7 @@
 # To route the home page to the "index" action of the "home" controller:
 module.exports.routes =
   "/": { controller: "home", action: "index" }
+  "get /sketch": { controller: "sketch", action: "index"}
   "get /:id": { controller: "user", action: "get"}
 
 # If you want to set up a route only for a particular HTTP method/verb 
