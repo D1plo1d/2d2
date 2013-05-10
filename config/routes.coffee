@@ -23,8 +23,14 @@
 
 # To route the home page to the "index" action of the "home" controller:
 module.exports.routes =
-  "/": { controller: "home", action: "index" }
-  "get /:id": { controller: "user", action: "get"}
+  "get /": { controller: "home", action: "index" }
+
+  "get /login": { controller: "session", action: "new" }
+  "post /login": { controller: "session", action: "create" }
+  "get /logout": { controller: "session", action: "destroy" }
+  "get /signup": { controller: "user", action: "new" }
+
+  # "get /:id": { controller: "user", action: "get"}
 
 # If you want to set up a route only for a particular HTTP method/verb 
 # (GET, POST, PUT, DELETE) you can specify the verb before the path:

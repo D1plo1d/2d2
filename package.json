@@ -12,6 +12,7 @@
         , "stylus": "https://github.com/blakeembrey/stylus/tarball/file-glob"
         , "asset-rack": "https://github.com/D1plo1d/asset-rack/tarball/master"
         , "sails": "https://github.com/D1plo1d/sails/tarball/master"
+        , "forms": "*"
     },
     "scripts": {
         "start": "node .app.js",

@@ -1,4 +1,6 @@
-# module.exports =
+passport = require("passport")
+
+module.exports =
   
 #   # Name of the application (used as default <title>)
 #   appName: "Sails Application"
@@ -25,3 +27,8 @@
 #   #
 #   log:
 #     level: "info"
+
+  express:
+    customMiddleware: (app) ->
+      app.use(passport.initialize())
+      app.use(passport.session())

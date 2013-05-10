@@ -8,10 +8,15 @@ module.exports =
 
     # Simple attribute:
     username: 'STRING'
-    password: 'STRING'
+    cryptedPassword: 'STRING'
 
     # Or for more flexibility:
     # phoneNumber: {
     # 	type: 'STRING',
     # 	defaultValue: '555-555-5555'
+    #   filter: [bcrypt]
+    #   getter: 
+    #   setter: 
     # }
+
+    # cryptedPassword: 

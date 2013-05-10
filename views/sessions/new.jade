@@ -1,0 +1,9 @@
+.container
+  .row
+    .span12
+      h1 Log In
+      - if (flash.error !== undefined)
+        .alert.alert-error= flash.error
+      form.signup-form(method="POST", action="/login")
+        != fields
+        button.btn.btn-primary(type="submit") Log In

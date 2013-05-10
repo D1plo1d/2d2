@@ -1,10 +1,5 @@
-#---------------------
-#	:: Home 
-#	-> controller
-#---------------------
-HomeController =
+# Home Controller 
+module.exports =
 
   index: (req, res) ->
     res.view()
-
-module.exports = HomeController
