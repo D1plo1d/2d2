@@ -1,7 +1,7 @@
-# module.exports =
+module.exports =
   
-#   # Name of the application (used as default <title>)
-#   appName: "Sails Application"
+  # Name of the application (used as default <title>)
+  appName: "2D2"
   
 #   # Port this Sails application will live on
 #   port: 13373
