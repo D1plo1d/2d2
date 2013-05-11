@@ -1,0 +1,45 @@
+$inactive_color = #309
+$active_color = #37D
+
+.canvas
+  
+  shape-rendering: geometricPrecision
+
+  .shape-group
+
+    // Shapes Base
+    stroke-width 2px
+    stroke $inactive_color
+    .active, *:hover
+      stroke $active_color
+      fill: $active_color
+
+    // Implicit Points
+    circle.implicit-point
+      stroke: none
+      stroke-width: 0
+
+    // Dimensions
+    .dimension
+      cursor: pointer
+      stroke: #ccc
+
+
+  .guide-group
+
+    // Guide Base
+    stroke-width 1px
+    stroke: rgb(51, 51, 51);
+    @css {
+        stroke-dasharray: 4 4;
+    }
+
+
+  .text-group
+
+    // Dimensions
+    text.dimension-text
+      cursor: pointer
+      font:
+        size: 18px
+        text-anchor: middle

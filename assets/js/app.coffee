@@ -5,13 +5,20 @@
 #= require "../../components/bootstrap-stylus/js/bootstrap-tooltip.js"
 #= require "../../components/bootstrap-stylus/js/bootstrap-popover.js"
 
+# Angular JS
 #= require "../../components/angular/angular.js"
 #= require "../../components/angular-resource/angular-resource.js"
 #= require "../../components/angular-sanitize/angular-sanitize.js"
 
+# SVG Sketch Dependencies
+#= require "../../components/jquery-mousewheel/jquery.mousewheel.js"
 #= require "../../components/svg.js/dist/svg.js"
+#= require "../../components/hammerjs/dist/hammer.min.js"
+#= require "../../components/hammerjs/dist/jquery.hammer.min.js"
 
+# Constraint Solver Dependencies
+#= require "../../components/eventEmitter/EventEmitter.js"
+
+# The App
 #= require "svg_sketch"
 
-console.log "app"
-# var

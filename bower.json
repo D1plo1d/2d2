@@ -20,5 +20,8 @@
       , "angular-sanitize": "~1.0.5"
 
       , "svg.js": "*"
+      , "hammerjs": "*"
+      , "jquery-mousewheel": "*"
+      , "eventEmitter": "*"
     }
 }
