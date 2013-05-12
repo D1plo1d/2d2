@@ -11,8 +11,10 @@ class SvgSketch
       .hammer()
       .removeAttr("height")
       .on("mousewheel", @_onMouseWheel)
-      .on("dragstart", @_onDragStart)
+      .on("touchstart dragstart", @_onTouchStart)
       .on("drag", @_onDrag)
+      .on("pinch", @_onPinch)
+      .on('touchstart touchend touchmove', @_chromeDragFix)
 
     @groups = []
     for k in ["text", "shape", "guide"]
@@ -28,12 +30,38 @@ class SvgSketch
     @_updateZoom()
     e.preventDefault()
 
-  _onDragStart: (e) =>
-    @_dragStart = @_position.clone()
+  _onTouchStart: (e) =>
+    return true if (touches = e.originalEvent?.touches)?.length > 1
+    console.log "touch start"
+    console.log e
+
+    touch = touches?[0] || e.gesture.center
+    console.log touch
+    @_touchStart = 
+      pageXY: [touch.pageX, touch.pageY]
+      zoomLevel: @_zoomLevel
+      position: @_position.clone()
+
+  _onPinch: (e) =>
+    console.log e
+    @_zoomLevel = e.gesture.scale * @_touchStart.zoomLevel
+    @_updateDrag(e)
+    @_updateZoom()
+
+  _chromeDragFix: (e) =>
+    # http://stackoverflow.com/a/11613327/386193
+    e.preventDefault()
 
   _onDrag: (e) =>
-    delta = [e.gesture.deltaX, e.gesture.deltaY]
-    @_position[i] = @_dragStart[i] + delta[i] / @_zoomLevel for i in [0,1]
+    @_updateDrag(e)
+
+  _updateDrag: (e) ->
+    touch = e.gesture?.touches?[0] || e
+    pageXY = [touch.pageX, touch.pageY]
+    console.log e
+    for i in [0,1]
+      delta = pageXY[i] - @_touchStart.pageXY[i]
+      @_position[i] = @_touchStart.position[i] + delta / @_zoomLevel
     @_updateTranslations()
 
   _updateZoom: () ->
