@@ -19,6 +19,9 @@
 # Constraint Solver Dependencies
 #= require "../../components/eventEmitter/EventEmitter.js"
 
+# Custom Libs
+#= require "interactive.svg"
+
 # The App
 #= require "svg_sketch"
 
