@@ -31,16 +31,18 @@ class SvgSketch
     e.preventDefault()
 
   _onTouchStart: (e) =>
-    return true if (touches = e.originalEvent?.touches)?.length > 1
     console.log "touch start"
-    console.log e
+    @_fingersChangeHandler e, true
+    # console.log e
 
-    touch = touches?[0] || e.gesture.center
-    console.log touch
+  _fingersChangeHandler: (e, resetZoom = false) =>
+    center = e.gesture?.center || e.originalEvent.touches[0]
     @_touchStart = 
-      pageXY: [touch.pageX, touch.pageY]
-      zoomLevel: @_zoomLevel
+      pageXY: [center.pageX, center.pageY]
+      zoomLevel: if resetZoom then @_zoomLevel else @_touchStart?.zoomLevel
       position: @_position.clone()
+      touches: e.gesture?.touches?.length
+    console.log @_touchStart
 
   _onPinch: (e) =>
     console.log e
@@ -56,9 +58,10 @@ class SvgSketch
     @_updateDrag(e)
 
   _updateDrag: (e) ->
-    touch = e.gesture?.touches?[0] || e
+    if @_touchStart.touches != e.gesture?.touches?.length
+      @_fingersChangeHandler(e)
+    touch = e.gesture?.center || e
     pageXY = [touch.pageX, touch.pageY]
-    console.log e
     for i in [0,1]
       delta = pageXY[i] - @_touchStart.pageXY[i]
       @_position[i] = @_touchStart.position[i] + delta / @_zoomLevel
