@@ -23,5 +23,5 @@
 #= require "interactive.svg"
 
 # The App
-#= require "svg_sketch"
+#= require "sketch_controller"
 

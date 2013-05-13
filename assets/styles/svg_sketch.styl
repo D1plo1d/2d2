@@ -28,18 +28,16 @@ $active_color = #37D
   .guide-group
 
     // Guide Base
-    stroke-width 1px /* This is overriden in js */
+    stroke-width 1px
+    stroke-dasharray: 4 4;
     stroke: rgb(51, 51, 51);
-    @css {
-        stroke-dasharray: 4 4; /* This is overriden in js */
-    }
 
 
   .text-group
+    // Note: The majority of text-group styles are set in JS
 
     // Dimensions
-    text.dimension-text
-      cursor: pointer
-      font:
-        size: 18px
-        text-anchor: middle
+    &.dimension-text
+      &:hover
+        cursor: pointer
+

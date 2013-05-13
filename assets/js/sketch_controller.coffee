@@ -1,4 +1,4 @@
-class SvgSketch
+class SketchController
 
   constructor: ->
     @$svg = $('.canvas')
@@ -8,10 +8,7 @@ class SvgSketch
     @groups = []
     attrs = ['stroke-dasharray', 'stroke-width']
     for k in ["text", "shape", "guide"]
-      @groups[k] = @_draw.group(scaled: k != 'text', unscaledAttrs: attrs, class: "#{k}-group")
-    @_zoomedGroups = Object.reject(@groups, "text")
-
-  # Not to be included in Lib
+      @groups[k] = @_draw.group scaled: k != 'text', unscaledAttrs: attrs, class: "#{k}-group"
 
   test: ->
     @text = @groups.text.text('NooooOOOOooooooooOOOOOoooo')
@@ -29,9 +26,6 @@ class SvgSketch
     @_draw.redraw()
 
 
-sketch = new SvgSketch()
-
+sketch = new SketchController()
 sketch.test()
-# TODO: scrolling
 
-#sketch.zoom(0.5)
