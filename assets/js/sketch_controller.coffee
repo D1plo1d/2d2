@@ -1,4 +1,4 @@
-class SketchController extends EventEmitter
+class @SketchController extends EventEmitter
 
   constructor: ->
     @$svg = $('.canvas')
