@@ -3,7 +3,8 @@ SVG.Doc.prototype.interactive = -> new InteractiveSVG(@); @
 class InteractiveSVG
   _zoomLevel: 1
   _position: [0, 0]
-  _dimension: {x: 0, y: 0}
+  _dimension: {x: 0, y: 0} # The width and height of the svg element
+  _svgPageCoords: {}
   _groups: []
 
   constructor: (@_draw) ->
@@ -38,6 +39,7 @@ class InteractiveSVG
   # Event Listeners
 
   _onTouchStart: (e) =>
+    @_previousScale = 1
     @_fingersChangeHandler e, true
 
   _onMouseWheel: (e, delta, deltaX, deltaY) =>
@@ -46,9 +48,19 @@ class InteractiveSVG
     e.preventDefault()
 
   _onPinch: (e) =>
+    # console.log e
+    touch = e.gesture?.center
+    touch = {x: touch.pageX, y: touch.pageY}
+    deltaScale = e.gesture.scale - @_previousScale
     @_zoomLevel = e.gesture.scale * @_touchStart.zoomLevel
+
+    for k, i in ['x', 'y']
+      unscaledOffset = touch[k] - @_dimensions[k] / 2 - @_svgPageCoords[k]
+      @_pinchOffset[i] += deltaScale * unscaledOffset / @_zoomLevel
+
     @_onDrag(e)
     @_updateZoom()
+    @_previousScale = e.gesture.scale
 
   _onDrag: (e) =>
     if @_touchStart.touches != e.gesture?.touches?.length
@@ -57,10 +69,12 @@ class InteractiveSVG
     pageXY = [touch.pageX, touch.pageY]
     for i in [0,1]
       delta = pageXY[i] - @_touchStart.pageXY[i]
-      @_position[i] = @_touchStart.position[i] + delta / @_zoomLevel
+      @_position[i] = @_touchStart.position[i] + delta / @_zoomLevel - @_pinchOffset[i]
     @_updateTranslations()
 
   _onResize: () =>
+    p = @$svg.position()
+    @_svgPageCoords = {x: p.left, y: p.top}
     @_dimensions = {x: @$svg.width(), y: @$svg.height()}
 
     @_draw.viewbox x: 0, y: 0, width: @_dimensions.x, height: @_dimensions.y
@@ -77,6 +91,7 @@ class InteractiveSVG
       zoomLevel: if resetZoom then @_zoomLevel else @_touchStart?.zoomLevel
       position: @_position.clone()
       touches: e.gesture?.touches?.length
+    @_pinchOffset = [0,0]
 
   _updateZoom: () ->
     for g in @_groups
@@ -99,24 +114,18 @@ class InteractiveSVG
     g.opts.unscaledAttrs ?= {}
     vals = g.initialVals = {}
     $group = $(g.group.node)
-    console.log $(g.group.node).css("stroke-dasharray")
     for k in g.opts.unscaledAttrs
       css = $group.css k
       continue if css == "none" or !(css?)
       vals[k] = ( parseFloat(v) for v in css.split " " )
-    console.log vals
 
   _updateUnscaledCss: (g) ->
     style = {}
-    console.log g.opts.unscaledAttrs
 
     for k in g.opts.unscaledAttrs
       continue unless g.initialVals[k]?
-      console.log k
-      console.log g.initialVals[k]
       style[k] = ( v / @_zoomLevel for v in g.initialVals[k] ).join(" ")
 
-    # console.log style
     $(g.group.node).css style
 
   _updateTranslations: () =>

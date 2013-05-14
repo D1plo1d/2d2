@@ -8,7 +8,8 @@ class @SketchController extends EventEmitter
     @groups = []
     attrs = ['stroke-dasharray', 'stroke-width']
     for k in ["text", "shape", "guide"]
-      @groups[k] = @_draw.group scaled: k != 'text', unscaledAttrs: attrs, class: "#{k}-group"
+      # @groups[k] = @_draw.group scaled: k != 'text', unscaledAttrs: attrs, class: "#{k}-group"
+      @groups[k] = @_draw.group scaled: true, unscaledAttrs: attrs, class: "#{k}-group"
 
   test: ->
     @text = @groups.text.text('NooooOOOOooooooooOOOOOoooo')
