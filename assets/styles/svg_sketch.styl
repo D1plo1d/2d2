@@ -10,12 +10,13 @@ $active_color = #37D
     // Shapes Base
     stroke-width 2px /* This is overriden in js */
     stroke $inactive_color
+    fill $inactive_color
     .active, *:hover
       stroke $active_color
-      fill: $active_color
+      fill $active_color
 
     // Implicit Points
-    circle.implicit-point
+    .implicit-point
       stroke: none
       stroke-width: 0
 

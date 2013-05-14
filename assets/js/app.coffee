@@ -25,3 +25,6 @@
 # The App
 #= require "sketch_controller"
 
+
+sketch = new SketchController()
+sketch.test()
