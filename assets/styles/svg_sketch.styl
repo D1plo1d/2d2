@@ -2,10 +2,9 @@ $inactive_color = #309
 $active_color = #37D
 
 .canvas
-  
   shape-rendering: geometricPrecision
 
-  .shape-group
+  .shapes-group
 
     // Shapes Base
     stroke-width 2px /* This is overriden in js */
@@ -15,24 +14,21 @@ $active_color = #37D
       stroke $active_color
       fill $active_color
 
-    // Implicit Points
-    .implicit-point
-      stroke: none
-      stroke-width: 0
-
     // Dimensions
     .dimension
       cursor: pointer
       stroke: #ccc
 
+  .points-group
+    stroke $inactive_color
+    fill $inactive_color
+    stroke-width: 10px
+    stroke-linecap: round
 
-  .guide-group
-
-    // Guide Base
+  .guides-group
     stroke-width 1px
     stroke-dasharray: 4 4;
     stroke: rgb(51, 51, 51);
-
 
   .text-group
     // Note: The majority of text-group styles are set in JS

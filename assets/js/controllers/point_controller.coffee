@@ -4,10 +4,10 @@ class @PointController extends EventEmitter
   kernelElement: null
   svgElement: null
   dragging: false
-  svgType: "circle"
+  svgType: "path"
 
   constructor: (@kernelElement, @parent) ->
-    @svgElement = @parent.groups.shape[@svgType](10)
+    @svgElement = @parent.groups.points[@svgType]("M0,0L0,0")
       .draggable(@parent._draw)
       .attr class: "implicit-point"
     @svgElement[k] @kernelElement[k] for k in ['x', 'y']

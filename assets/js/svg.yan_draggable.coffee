@@ -1,7 +1,8 @@
-SVG.extend SVG.Element, draggable: (parent) ->
+SVG.extend SVG.Element, draggable: (parent, position = {x: 0, y: 0}) ->
 
   console.log parent
   _start = {x: 0, y: 0}
+
   _self = @
 
   _init = ->
@@ -14,13 +15,14 @@ SVG.extend SVG.Element, draggable: (parent) ->
   _onTouchStart = (e) ->
     g = e.gesture
     for k in ['x', 'y']
-      _start[k] = _self.attr(k) || _self.attr("c#{k}")
+      _start[k] = position[k]
 
   _onDrag = (e) ->
     _self.front()
     for k in ['x', 'y']
       delta = e.gesture["delta#{k.toUpperCase()}"]
-      _self["c#{k}"] delta / (parent.zoom?() || 1)  + _start[k]
+      position[k] = delta / (parent.zoom?() || 1)  + _start[k]
+      _self["c#{k}"](position[k])
 
   _squashEvents = (e) ->
     e.stopPropagation()

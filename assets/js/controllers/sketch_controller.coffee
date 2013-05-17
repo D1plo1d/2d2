@@ -17,7 +17,7 @@ class @SketchController extends EventEmitter
     @$svg.removeAttr("height")
     # Initializing the groups
     attrs = ['stroke-dasharray', 'stroke-width']
-    for k in ["text", "shape", "guide"]
+    for k in ["text", "shapes", "guides", "points"]
       @groups[k] = @_draw.group scaled: k != 'text', unscaledAttrs: attrs, class: "#{k}-group"
       # @groups[k] = @_draw.group scaled: true, unscaledAttrs: attrs, class: "#{k}-group"
 
@@ -44,13 +44,13 @@ class @SketchController extends EventEmitter
       anchor: 'middle'
       leading: 1
 
-    @groups.shape.line(-500, 0, 500, 150)
+    @groups.shapes.line(-500, 0, 500, 150)
     # point = @groups.shape.circle(10)
     #   .move(500-5, 150-5)
     #   .attr class: "implicit-point"
     @sketch.add new kernel.Point()
 
-    @groups.guide.line(-500, 0, 500, 0)
+    @groups.guides.line(-500, 0, 500, 0)
     @_draw.redraw()
 
   # Turn keyboard events on or off
