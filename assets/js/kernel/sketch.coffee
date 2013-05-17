@@ -1,4 +1,4 @@
-class @Sketch extends EventEmitter
+class kernel.Sketch extends EventEmitter
   # All the points in the sketch
   points: []
   # All the shapes in the sketch
@@ -10,6 +10,14 @@ class @Sketch extends EventEmitter
 
   constructor: (string) ->
     deserialize(string) if string?
+
+  add: (obj) ->
+    type = switch obj.constructor
+      when kernel.shape then "shape"
+      when kernel.point then "point"
+      when kernel.constraint then "constraint"
+    @["#{type}s"].push obj
+    @emit "add#{type}", obj, type
 
   select: (shape) ->
     # if the element is included in the selected shapes then
@@ -47,7 +55,7 @@ class @Sketch extends EventEmitter
     @selected = []
     @_updateSelection()
 
-  delete: ->
+  deleteSelection: ->
     @cancel()
     s.delete() for s in @_selectedParentShapes()
 

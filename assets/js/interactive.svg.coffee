@@ -12,6 +12,7 @@ class InteractiveSVG
     @_draw.redraw = @_updateTranslations
     @_draw._group = @_draw.group
     @_draw.group = @group
+    @_draw.incrementZoom = @incrementZoom
 
     @_onResize()
     $(window).on "resize", @_onResize
@@ -34,6 +35,10 @@ class InteractiveSVG
     @_groups.push g
     @_initUnscaledCss g
     return g.group
+
+  incrementZoom: (inc) =>
+    @_zoomLevel += inc
+    @_updateZoom()
 
 
   # Event Listeners

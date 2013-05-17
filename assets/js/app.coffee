@@ -4,6 +4,7 @@
 #= require "../../components/sugar/release/sugar-full.min.js"
 #= require "../../components/bootstrap-stylus/js/bootstrap-tooltip.js"
 #= require "../../components/bootstrap-stylus/js/bootstrap-popover.js"
+#= require "../../components/jquery-hotkeys/jquery.hotkeys.js"
 
 # Angular JS
 #= require "../../components/angular/angular.js"
@@ -22,9 +23,19 @@
 # Custom Libs
 #= require "interactive.svg"
 
+# The CAD Kernel
+#= require "kernel/kernel"
+#= require "kernel/sketch"
+#= require "kernel/shape"
+#= require "kernel/project"
+
+# The Controllers
+#= require "controllers/sketch_controller"
+#= require "controllers/shape_controller"
+#= require "controllers/project_controller"
+#= require_tree "controllers/shapes"
+
 # The App
-#= require "sketch_controller"
+project = new kernel.Project()
+new ProjectController(project)
 
-
-sketch = new SketchController()
-sketch.test()

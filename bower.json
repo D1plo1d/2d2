@@ -23,5 +23,6 @@
       , "hammerjs": "*"
       , "jquery-mousewheel": "*"
       , "eventEmitter": "*"
+      , "jquery-hotkeys": "git@github.com:jeresig/jquery.hotkeys.git"
     }
 }
