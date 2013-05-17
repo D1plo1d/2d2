@@ -1,8 +1,5 @@
 SVG.extend SVG.Element, draggable: (parent, position = {x: 0, y: 0}) ->
-
-  console.log parent
   _start = {x: 0, y: 0}
-
   _self = @
 
   _init = ->
