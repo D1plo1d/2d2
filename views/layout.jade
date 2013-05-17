@@ -8,4 +8,4 @@ html
   body
     | !{body}
     | !{assets.templateLibrary()}
-    | !{assets.js("/app")}
+    | !{assets.js("/app").replace("<script", "<script language=\"javascript1.7\"")}

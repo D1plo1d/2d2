@@ -1,11 +1,25 @@
 class @SketchController extends EventEmitter
+  sketch: null
+  groups: []
+  _draw: null
 
   constructor: (@sketch) ->
+    console.log "cool"
     @_initSVG()
     @sketch.on "add", @_onAdd
     @enable()
     # Demo BS
     @test()
+
+  _initSVG: ->
+    @$svg = $('.canvas')
+    @_draw = new SVG(@$svg[0]).interactive()
+    @$svg.removeAttr("height")
+    # Initializing the groups
+    attrs = ['stroke-dasharray', 'stroke-width']
+    for k in ["text", "shape", "guide"]
+      @groups[k] = @_draw.group scaled: k != 'text', unscaledAttrs: attrs, class: "#{k}-group"
+      # @groups[k] = @_draw.group scaled: true, unscaledAttrs: attrs, class: "#{k}-group"
 
   _keyboardEvents: -> @__keyboardEvents ?= [
     # Delete and Cancel
@@ -15,19 +29,9 @@ class @SketchController extends EventEmitter
     ["keypress", null, "+", @_draw.incrementZoom.fill(+0.1)],
     ["keypress", null, "-", @_draw.incrementZoom.fill(-0.1)]]
 
-  _initSVG: ->
-    @$svg = $('.canvas')
-    @_draw = new SVG(@$svg[0]).interactive()
-    @$svg.removeAttr("height")
-    # Initializing the groups
-    @groups = []
-    attrs = ['stroke-dasharray', 'stroke-width']
-    for k in ["text", "shape", "guide"]
-      @groups[k] = @_draw.group scaled: k != 'text', unscaledAttrs: attrs, class: "#{k}-group"
-      # @groups[k] = @_draw.group scaled: true, unscaledAttrs: attrs, class: "#{k}-group"
-
   _onAdd: (obj, type) =>
-    new @["#{type.capitalize()}Controller"](@sketch, obj)
+    console.log "#{type.capitalize()}Controller"
+    new window["#{type.capitalize()}Controller"](obj, @)
 
   test: ->
     @text = @groups.text.text('NooooOOOOooooooooOOOOOoooo')
@@ -41,9 +45,10 @@ class @SketchController extends EventEmitter
       leading: 1
 
     @groups.shape.line(-500, 0, 500, 150)
-    point = @groups.shape.circle(10)
-      .move(500-5, 150-5)
-      .attr class: "implicit-point"
+    # point = @groups.shape.circle(10)
+    #   .move(500-5, 150-5)
+    #   .attr class: "implicit-point"
+    @sketch.add new kernel.Point()
 
     @groups.guide.line(-500, 0, 500, 0)
     @_draw.redraw()

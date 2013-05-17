@@ -20,6 +20,7 @@
       , "angular-sanitize": "~1.0.5"
 
       , "svg.js": "*"
+      , "svg.draggable.js": "git@github.com:wout/svg.draggable.js.git"
       , "hammerjs": "*"
       , "jquery-mousewheel": "*"
       , "eventEmitter": "*"

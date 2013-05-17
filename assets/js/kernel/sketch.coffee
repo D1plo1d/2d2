@@ -13,11 +13,11 @@ class kernel.Sketch extends EventEmitter
 
   add: (obj) ->
     type = switch obj.constructor
-      when kernel.shape then "shape"
-      when kernel.point then "point"
-      when kernel.constraint then "constraint"
+      when kernel.Shape then "shape"
+      when kernel.Point then "point"
+      when kernel.Constraint then "constraint"
     @["#{type}s"].push obj
-    @emit "add#{type}", obj, type
+    @emit "add", obj, type
 
   select: (shape) ->
     # if the element is included in the selected shapes then

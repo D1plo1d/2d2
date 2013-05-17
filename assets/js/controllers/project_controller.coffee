@@ -3,6 +3,7 @@
 class @ProjectController
 
   constructor: (@project) ->
+    console.log "wut"
     $(document).on("keydown", "ctrl+n", @newSketch)
     # @project.on "add", @_onAddSketch
     @newSketch()

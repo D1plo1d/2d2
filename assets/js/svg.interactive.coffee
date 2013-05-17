@@ -13,6 +13,7 @@ class InteractiveSVG
     @_draw._group = @_draw.group
     @_draw.group = @group
     @_draw.incrementZoom = @incrementZoom
+    @_draw.zoom = @zoom
 
     @_onResize()
     $(window).on "resize", @_onResize
@@ -39,6 +40,15 @@ class InteractiveSVG
   incrementZoom: (inc) =>
     @_zoomLevel += inc
     @_updateZoom()
+    return @_draw
+
+  zoom: (val) =>
+    if val?
+      @_zoomLevel = val
+      @_updateZoom()
+      return @_draw
+    else
+      return @_zoomLevel
 
 
   # Event Listeners
@@ -68,6 +78,9 @@ class InteractiveSVG
     @_previousScale = e.gesture.scale
 
   _onDrag: (e) =>
+    # console.log "interactive start"
+    # console.log e
+    # console.log "interactive end"
     if @_touchStart.touches != e.gesture?.touches?.length
       @_fingersChangeHandler(e)
     touch = e.gesture?.center || e
@@ -102,6 +115,7 @@ class InteractiveSVG
     for g in @_groups
       group = g.group
       if g.opts.scaled
+        # group.animate(300).transform scaleX: @_zoomLevel, scaleY: @_zoomLevel
         group.transform scaleX: @_zoomLevel, scaleY: @_zoomLevel
       else
         group.each (i, children) => @_updateChild children[i]
@@ -111,6 +125,7 @@ class InteractiveSVG
     @_updateTranslations()
 
   _updateChild: (el) ->
+    # el.animate(300).transform
     el.transform
       x: el.attr('x')*(@_zoomLevel - 1)
       y: el.attr('y')*(@_zoomLevel - 1)
