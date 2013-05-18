@@ -10,7 +10,7 @@ class @SketchController extends EventEmitter
     @enable()
     @_initMenu()
     # Demo BS
-    # @test()
+    @test()
 
   _initSVG: ->
     @$svg = $('.canvas')
@@ -35,7 +35,6 @@ class @SketchController extends EventEmitter
       .on( "click", => @sketch.add new kernel.Point() )
 
   _onAdd: (obj, type) =>
-    console.log "#{type.capitalize()}Controller"
     new window["#{type.capitalize()}Controller"](obj, @)
 
   test: ->
