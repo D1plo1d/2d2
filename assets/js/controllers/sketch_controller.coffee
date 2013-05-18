@@ -8,8 +8,9 @@ class @SketchController extends EventEmitter
     @_initSVG()
     @sketch.on "add", @_onAdd
     @enable()
+    @_initMenu()
     # Demo BS
-    @test()
+    # @test()
 
   _initSVG: ->
     @$svg = $('.canvas')
@@ -28,6 +29,10 @@ class @SketchController extends EventEmitter
     # Zoom
     ["keypress", null, "+", @_draw.incrementZoom.fill(+0.1)],
     ["keypress", null, "-", @_draw.incrementZoom.fill(-0.1)]]
+
+  _initMenu: ->
+    $(".btn-point")
+      .on( "click", => @sketch.add new kernel.Point() )
 
   _onAdd: (obj, type) =>
     console.log "#{type.capitalize()}Controller"

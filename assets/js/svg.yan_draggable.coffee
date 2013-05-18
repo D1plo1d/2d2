@@ -1,25 +1,48 @@
 SVG.extend SVG.Element, draggable: (parent, position = {x: 0, y: 0}) ->
-  _start = {x: 0, y: 0}
+  _start = {x: 0, y: 0, pageX: 0, pageY: 0}
   _self = @
+  $svg = $(parent.node)
 
   _init = ->
     $(_self.node).hammer()
-      .on("touchstart dragstart", _onTouchStart)
-      .on("drag", _onDrag)
+      .on("touchstart mousedown", _onTouchStart)
       # http://stackoverflow.com/a/11613327/386193
-      .on 'touchstart touchend touchmove drag pinch', _squashEvents
+      .on('dragstart touchstart touchend drag pinch', _squashEvents)
+    _self.drag = -> $(window).one "touchmove mousemove", _onExternalDragStart
 
-  _onTouchStart = (e) ->
-    g = e.gesture
-    for k in ['x', 'y']
-      _start[k] = position[k]
+  _onExternalDragStart = (e) ->
+    _onTouchStart e, true
 
-  _onDrag = (e) ->
+  _onTouchStart = (e, external = false) ->
+    if external
+      svgPosition = $svg.position()
+      svgPosition = x: svgPosition.left, y: svgPosition.top
+      svgDimensions = x: $svg.width(), y: $svg.height()
+      scrollPosition = parent.position()
+      scrollPosition = {x: scrollPosition[0], y: scrollPosition[1]}
+
+    for k, pageK of {x: 'pageX', y: 'pageY'}
+      if external
+        _start[k] = e[pageK] - svgDimensions[k]/2 - svgPosition[k] - scrollPosition[k]
+      else
+        _start[k] = position[k]
+      _start[pageK] = e[pageK]
+
+    $(document)
+      .on("touchmove mousemove", _onTouchMove)
+      .on("touchend mouseup", _onTouchEnd)
+
+  _onTouchMove = (e) ->
     _self.front()
-    for k in ['x', 'y']
-      delta = e.gesture["delta#{k.toUpperCase()}"]
+    for k, pageK of {x: 'pageX', y: 'pageY'}
+      delta = (e.touches?[0] || e)[pageK] - _start[pageK]
       position[k] = delta / (parent.zoom?() || 1)  + _start[k]
       _self["c#{k}"](position[k])
+
+  _onTouchEnd = (e) ->
+    $(document)
+      .off("touchmove mousemove", _onTouchMove)
+      .off("touchend mouseup", _onTouchEnd)
 
   _squashEvents = (e) ->
     e.stopPropagation()

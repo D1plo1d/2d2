@@ -14,6 +14,7 @@ class InteractiveSVG
     @_draw.group = @group
     @_draw.incrementZoom = @incrementZoom
     @_draw.zoom = @zoom
+    @_draw.position = @position
 
     @_onResize()
     $(window).on "resize", @_onResize
@@ -35,6 +36,7 @@ class InteractiveSVG
     g.group.attr(class: opts.class) if opts.class?
     @_groups.push g
     @_initUnscaledCss g
+    @_updateZoom()
     return g.group
 
   incrementZoom: (inc) =>
@@ -49,6 +51,14 @@ class InteractiveSVG
       return @_draw
     else
       return @_zoomLevel
+
+  position: (val) =>
+    if val?
+      @_position = val
+      @_updateZoom()
+      return @_draw
+    else
+      return @_position
 
 
   # Event Listeners
