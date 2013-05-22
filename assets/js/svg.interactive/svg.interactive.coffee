@@ -6,6 +6,7 @@ class InteractiveSVG
   _dimension: {x: 0, y: 0} # The width and height of the svg element
   _svgPageCoords: {}
   _groups: []
+  _previousDisplacement: 0
 
   constructor: (@_draw) ->
     @$svg = $(@_draw.node)
@@ -27,7 +28,6 @@ class InteractiveSVG
 
     @$svg
       .on("drag2", @_onDrag)
-      .on("pinch2", @_onPinch)
       .on("mousewheel", @_onMouseWheel)
       .on("dragstart", @_onDragStart)
 
@@ -76,32 +76,37 @@ class InteractiveSVG
     e.preventDefault()
 
   _onPinch: (e) =>
+    console.log "pinch!"
     # console.log e
-    touch = e.gesture?.center
-    touch = {x: touch.pageX, y: touch.pageY}
-    deltaScale = e.gesture.scale - @_previousScale
-    @_zoomLevel = e.gesture.scale * @_touchStart.zoomLevel
+    # touch = e.gesture?.position
+    # touch = {x: touch[0], y: touch[1]}
+    @_zoomLevel = e.gesture.pinch * @_touchStart.zoomLevel
 
     for k, i in ['x', 'y']
-      unscaledOffset = touch[k] - @_dimensions[k] / 2 - @_svgPageCoords[k]
-      @_pinchOffset[i] += deltaScale * unscaledOffset / @_zoomLevel
+      # unscaledOffset = touch[k] - @_dimensions[k] / 2 - @_svgPageCoords[k]
+      # @_pinchOffset[i] = e.gesture.pinchDelta * unscaledOffset / @_zoomLevel
+      # @_pinchOffset[i] = (1 - e.gesture.pinch) * @_touchStart.zoomLevel
+      delta = (e.gesture.pinchDisplacement - @_previousDisplacement)
+      @_pinchOffset[i] += delta / @_zoomLevel
 
-    @_onDrag(e)
+    @_previousDisplacement = e.gesture.pinchDisplacement
     @_updateZoom()
-    @_previousScale = e.gesture.scale
 
   _onDrag: (e) =>
     e.stopPropagation()
     # console.log "interactive start"
     # console.log e
     # console.log "interactive end"
-    if @_touchStart.touches != e.gesture?.touches?.length
-      @_fingersChangeHandler(e)
-    touch = e.gesture?.center || e
-    pageXY = [touch.pageX, touch.pageY]
+    console.log "pinch offset:"
+    console.log @_pinchOffset
+
+    # if @_touchStart.touches != e.gesture?.touches?.length
+    #   @_fingersChangeHandler(e)
+    console.log e.gesture.position
     for i in [0,1]
       @_position[i] = e.gesture.position[i] - @_pinchOffset[i]
     @_updateTranslations()
+    @_onPinch(e) if e.gesture.pinchDelta != 0
 
   _onResize: () =>
     p = @$svg.position()
@@ -113,6 +118,7 @@ class InteractiveSVG
 
   _onDragStart: (e, start) =>
     @_touchStart = zoomLevel: @_zoomLevel
+    @_previousDisplacement = 0
 
   # Internal Functions
 
@@ -120,7 +126,7 @@ class InteractiveSVG
     @_pinchOffset = [0,0]
     offset = @_position.clone()
     offset[i] *= -1 for i in [0..1]
-    console.log offset
+    # console.log offset
     return offset
     # @_touchStart.position[i] + delta / @_zoomLevel - @_pinchOffset[i]
 
