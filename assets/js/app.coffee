@@ -22,7 +22,6 @@
 
 # Custom Libs
 #= require "svg.interactive/svg.interactive"
-#= require "svg.interactive/svg.yan_draggable"
 #= require "svg.interactive/touch_interface"
 
 # The CAD Kernel

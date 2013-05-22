@@ -9,9 +9,9 @@
         , "optimist": "*"
         , "jade": "*"
         , "forever": "0.10.0"
-        , "stylus": "https://github.com/blakeembrey/stylus/tarball/file-glob"
-        , "asset-rack": "https://github.com/D1plo1d/asset-rack/tarball/master"
-        , "sails": "https://github.com/D1plo1d/sails/tarball/master"
+        , "stylus": "git://github.com/blakeembrey/stylus.git#file-glob"
+        , "asset-rack": "git://github.com/D1plo1d/asset-rack.git#master"
+        , "sails": "git://github.com/D1plo1d/sails.git#master"
     },
     "scripts": {
         "start": "node .app.js",
