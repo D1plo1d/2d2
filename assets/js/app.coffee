@@ -21,8 +21,9 @@
 #= require "../../components/eventEmitter/EventEmitter.js"
 
 # Custom Libs
-#= require "svg.interactive"
-#= require "svg.yan_draggable"
+#= require "svg.interactive/svg.interactive"
+#= require "svg.interactive/svg.yan_draggable"
+#= require "svg.interactive/touch_interface"
 
 # The CAD Kernel
 #= require "kernel/kernel"

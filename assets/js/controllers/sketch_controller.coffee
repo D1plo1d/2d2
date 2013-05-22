@@ -2,6 +2,7 @@ class @SketchController extends EventEmitter
   sketch: null
   groups: []
   _draw: null
+  $svg: null
 
   constructor: (@sketch) ->
     console.log "cool"

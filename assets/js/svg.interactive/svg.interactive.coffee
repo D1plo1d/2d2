@@ -19,14 +19,17 @@ class InteractiveSVG
     @_onResize()
     $(window).on "resize", @_onResize
 
+    @$svg.touchInterface
+      offset: @_dragOffset
+      scale: @_dragScale
+      center: "average"
+      subtractMouseCoords: true
+
     @$svg
-      .hammer()
+      .on("drag2", @_onDrag)
+      .on("pinch2", @_onPinch)
       .on("mousewheel", @_onMouseWheel)
-      .on("touchstart dragstart", @_onTouchStart)
-      .on("drag", @_onDrag)
-      .on("pinch", @_onPinch)
-      # http://stackoverflow.com/a/11613327/386193
-      .on 'touchstart touchend touchmove', (e) -> e.preventDefault()
+      .on("dragstart", @_onDragStart)
 
 
   # SVG Overrides
@@ -63,9 +66,9 @@ class InteractiveSVG
 
   # Event Listeners
 
-  _onTouchStart: (e) =>
-    @_previousScale = 1
-    @_fingersChangeHandler e, true
+  # _onTouchStart: (e) =>
+  #   @_previousScale = 1
+  #   @_fingersChangeHandler e, true
 
   _onMouseWheel: (e, delta, deltaX, deltaY) =>
     @_zoomLevel *= 1+deltaY/1000
@@ -88,6 +91,7 @@ class InteractiveSVG
     @_previousScale = e.gesture.scale
 
   _onDrag: (e) =>
+    e.stopPropagation()
     # console.log "interactive start"
     # console.log e
     # console.log "interactive end"
@@ -96,8 +100,7 @@ class InteractiveSVG
     touch = e.gesture?.center || e
     pageXY = [touch.pageX, touch.pageY]
     for i in [0,1]
-      delta = pageXY[i] - @_touchStart.pageXY[i]
-      @_position[i] = @_touchStart.position[i] + delta / @_zoomLevel - @_pinchOffset[i]
+      @_position[i] = e.gesture.position[i] - @_pinchOffset[i]
     @_updateTranslations()
 
   _onResize: () =>
@@ -108,18 +111,31 @@ class InteractiveSVG
     @_draw.viewbox x: 0, y: 0, width: @_dimensions.x, height: @_dimensions.y
     @_updateTranslations()
 
+  _onDragStart: (e, start) =>
+    @_touchStart = zoomLevel: @_zoomLevel
 
   # Internal Functions
 
-  # Handles any time when the number of touches changes or a new touch starts
-  _fingersChangeHandler: (e, resetZoom = false) =>
-    center = e.gesture?.center || e.originalEvent.touches[0]
-    @_touchStart = 
-      pageXY: [center.pageX, center.pageY]
-      zoomLevel: if resetZoom then @_zoomLevel else @_touchStart?.zoomLevel
-      position: @_position.clone()
-      touches: e.gesture?.touches?.length
+  _dragOffset: (e) =>
     @_pinchOffset = [0,0]
+    offset = @_position.clone()
+    offset[i] *= -1 for i in [0..1]
+    console.log offset
+    return offset
+    # @_touchStart.position[i] + delta / @_zoomLevel - @_pinchOffset[i]
+
+  _dragScale: () =>
+    1/@_zoomLevel
+
+  # Handles any time when the number of touches changes or a new touch starts
+  # _onResetDragStart: (e, start, resetZoom = false) =>
+  #   center = e.gesture?.center || e.originalEvent.touches[0]
+  #   @_touchStart = 
+  #     pageXY: [center.pageX, center.pageY]
+  #     zoomLevel: if resetZoom then @_zoomLevel else @_touchStart?.zoomLevel
+  #     position: @_position.clone()
+  #     touches: e.gesture?.touches?.length
+  #   @_pinchOffset = [0,0]
 
   _updateZoom: () ->
     for g in @_groups
