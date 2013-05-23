@@ -35,7 +35,11 @@ class @SketchController extends EventEmitter
     $(".btn-point")
       .on( "click", => @sketch.add new kernel.Point() )
     $(".btn-line")
-      .on( "click", => @sketch.add new kernel.Shape(type: "line") )
+      .on "click", @_clickLineBtn
+
+  _clickLineBtn: (e) =>
+    @sketch.add new kernel.Shape(type: "line")
+    e.stopImmediatePropagation()
 
   _onAdd: (obj, type) =>
     type = obj.type if type == "shape"

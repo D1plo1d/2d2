@@ -51,7 +51,7 @@ class @ShapeController extends EventEmitter
   render: ->
     console.log "render"
     # update the element only if it and all it's points exist
-    @svgElement.attr @_attrs() if @svgElement?
+    @svgElement.show().attr @_attrs() if @svgElement?
 
   _attrs: ->
     throw "the shape controller _attrs method must be overwritten"

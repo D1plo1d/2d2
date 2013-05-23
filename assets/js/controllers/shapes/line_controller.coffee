@@ -16,7 +16,7 @@ class @LineController extends @ShapeController
       @_afterCreate()
 
   _initSvgElement: ->
-    @svgElement = @parent.groups.shapes[@svgType](@_path(), true)
+    @svgElement = @parent.groups.shapes[@svgType](@_path(), true).hide()
 
   _attrs: ->
     d: @_path()

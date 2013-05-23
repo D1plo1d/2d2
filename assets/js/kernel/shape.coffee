@@ -1,12 +1,14 @@
 class kernel.Shape extends kernel.SketchElement
-  points: []
-  guides: []
+  points: null
+  guides: null
   visibleGuides: false
   initialized: false
   # Treat these as read only after instantiation
   type: null
 
   constructor: ->
+    @points = []
+    @guides = []
     super
     @on "addPoint", @_onAddPoint
     @on "removePoint", @_onRemovePoint
@@ -18,7 +20,6 @@ class kernel.Shape extends kernel.SketchElement
 
   _init: (opts) =>
     @emit "beforeInitialize"
-
     initialized = true
     @emit "initialize"
 
