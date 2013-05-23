@@ -34,11 +34,11 @@ class @SketchController extends EventEmitter
   _initMenu: ->
     $(".btn-point")
       .on( "click", => @sketch.add new kernel.Point() )
-    $(".btn-line")
-      .on "click", @_clickLineBtn
+    for type in ["line", "circle", "arc"]
+      $(".btn-#{type}").on "click", @_clickAddShapeBtn.fill(type)
 
-  _clickLineBtn: (e) =>
-    @sketch.add new kernel.Shape(type: "line")
+  _clickAddShapeBtn: (type, e) =>
+    @sketch.add new kernel.Shape(type: type)
     e.stopImmediatePropagation()
 
   _onAdd: (obj, type) =>
