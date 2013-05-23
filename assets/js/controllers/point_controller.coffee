@@ -8,7 +8,7 @@ class @PointController extends EventEmitter
 
   constructor: (@kernelElement, @parent) ->
     @svgElement = @parent.groups.points[@svgType]("M0,0L0,0")
-      # .draggable(@parent._draw, @kernelElement)
+      # .draggable(@parent.draw, @kernelElement)
       .attr(class: "implicit-point")
     @$node = $(@svgElement.node)
 
@@ -25,6 +25,7 @@ class @PointController extends EventEmitter
     @svgElement.hide()
     @$node.touchInterface("startDragging")
     @$node.one "drag2", => @svgElement.show()
+    @$node.one "dragend", => @kernelElement.place()
 
   _dragOffset: =>
     $svg = @parent.$svg
@@ -39,8 +40,13 @@ class @PointController extends EventEmitter
   _onDrag: (e) =>
     e.stopPropagation()
 
-    sketchPos = @parent._draw.position()
-    zoom = @parent._draw.zoom()
+    sketchPos = @parent.draw.position()
+    zoom = @parent.draw.zoom()
+
+    position = ( e.gesture.position[i] / zoom - sketchPos[i] for i in [0..1] )
+
     for k, i in ["x", "y"]
-      position = e.gesture.position[i] / zoom - sketchPos[i]
-      @svgElement[k](position)
+      @svgElement[k] position[i]
+
+    @kernelElement.move.apply @kernelElement, position
+

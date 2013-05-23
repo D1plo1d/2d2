@@ -29,13 +29,13 @@ class kernel.Sketch extends EventEmitter
     @cancel()
     # Select the new shape
     @selected = [shape]
-    @_updateSelection()
+    @updateSelection()
     return true
 
   hasSelection: () ->
     @selected.length > 0
 
-  _updateSelection: () ->
+  updateSelection: () ->
     newSelection = @selected.union(@_selectedChildPoints()).unique()
     s.select() unless @selected.include s for s in newSelection
     @selected = newSelection
@@ -53,7 +53,7 @@ class kernel.Sketch extends EventEmitter
     s.unselect() for s in @selected
     s.cancel() for s in @_selectedParentShapes()
     @selected = []
-    @_updateSelection()
+    @updateSelection()
 
   deleteSelection: ->
     @cancel()

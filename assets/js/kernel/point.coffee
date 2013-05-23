@@ -9,6 +9,9 @@ class kernel.Point extends kernel.SketchElement
     placed = true
     @emit "place"
 
+  move: (@x, @y) ->
+    @emit "move"
+
 # Kernel.point.prototype.__iterator__ = ->
 #   for val in [@x, @y] yield val
 #   return

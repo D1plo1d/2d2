@@ -45,9 +45,9 @@ class touchInterface
     @_resetStart e, @start? if !@start? or e.originalEvent.touches?.length != @start.touchCount
     scale = @opts.scale?() || 1
     coords = @_getCoords e
-    console.log e
-    console.log "coords:"
-    console.log coords
+    # console.log e
+    # console.log "coords:"
+    # console.log coords
     if e.originalEvent.touches?.length > 0
       touchScale = @_getScale @start.touches, e.originalEvent.touches
     gesture =
