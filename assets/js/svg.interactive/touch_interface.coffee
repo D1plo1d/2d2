@@ -68,6 +68,7 @@ class touchInterface
     e.stopImmediatePropagation()
 
   stopDragging: (e) =>
+    return unless @start?
     @_toggleEvents "off"
     @start = null
     @$el.trigger "dragend", e
