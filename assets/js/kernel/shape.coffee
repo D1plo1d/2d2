@@ -21,8 +21,6 @@ class kernel.Shape extends kernel.SketchElement
   add: (p, eventsOnly = false) ->
     @emit "beforeAddPoint", p
     @points.push p unless eventsOnly
-    console.log "point added sir!"
-    console.log @isFullyDefined()
     @emit "fullyDefine" if @isFullyDefined()
     @emit "addPoint", p
 
@@ -30,9 +28,7 @@ class kernel.Shape extends kernel.SketchElement
     @_updateAttr "visibleGuides", value, false: "hideGuides", true: "showGuides"
 
   _onDelete: (currentTarget, originalTarget) =>
-    console.log @points
     point.delete(originalTarget) for point in @points
-
 
   # True if the shape has all it's points defined
   isFullyDefined: ->
@@ -51,8 +47,6 @@ class kernel.Shape extends kernel.SketchElement
     @_togglePointEvents point, "on"
 
   _onRemovePoint: (point) =>
-    console.log "remove point"
-    console.log point
     @_togglePointEvents point, "off"
 
   _togglePointEvents: (point, toggle) ->
@@ -62,17 +56,12 @@ class kernel.Shape extends kernel.SketchElement
     point[toggle]("merge", @_onPointMerge)
 
   _onPointMerge: (point, e) =>
-    console.log "poing merged"
-    console.log e.deadPoint
-    console.log point
-    console.log point == e.mergedPoint
     return unless point == e.deadPoint
     @points[@points.indexOf(point)] = e.mergedPoint
     @emit "removePoint", e.deadPoint
     @emit "addPoint", e.mergedPoint
 
   _onBeforePointDelete: (point, originalTarget) =>
-    console.log "point deleted!!"
     return @delete() if @_deleting or @points.include originalTarget
     # if the original target of deletion is a unrelated shape containing a 
     # shared point then prevent the shared point from being deleted. It is 

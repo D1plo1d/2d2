@@ -5,7 +5,6 @@ class @SketchController extends EventEmitter
   $svg: null
 
   constructor: (@sketch) ->
-    console.log "cool"
     @_initSVG()
     @sketch.on "add", @_onAdd
     @enable()

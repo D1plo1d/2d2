@@ -49,7 +49,6 @@ class @ShapeController extends EventEmitter
     return guideElement
 
   render: ->
-    console.log "render"
     # update the element only if it and all it's points exist
     @svgElement.show().attr @_attrs() if @svgElement?
 
@@ -57,7 +56,6 @@ class @ShapeController extends EventEmitter
     throw "the shape controller _attrs method must be overwritten"
 
   _addNthPoint: (n) =>
-    console.log "adding #{n}"
     point = new kernel.Point()
     @sketch.add point
     @kernelElement.add point

@@ -33,8 +33,6 @@ class kernel.Point extends kernel.SketchElement
       # check if the other point is within snapping distance of this point and 
       # it is the nearest point
       distance = Math.sqrt( Math.pow(@x - p2.x, 2) + Math.pow(@y - p2.y, 2) )
-      console.log p2
-      console.log distance
       continue unless distance <= snapDistance and distance < nearestDistance
 
       nearestDistance = distance
@@ -42,8 +40,6 @@ class kernel.Point extends kernel.SketchElement
 
     # if a nearby snappable point was discovered, snap to it and record it 
     return unless @_coincidentPoint?
-    console.log "snapping to:"
-    console.log @_coincidentPoint
     @[k] = @_coincidentPoint[k] for k in ['x', 'y']
 
   mergeCoincidentPoints: ->

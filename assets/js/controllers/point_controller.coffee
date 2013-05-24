@@ -44,8 +44,6 @@ class @PointController extends EventEmitter
     return ( svgPos[i] + svgDimensions[i]/2 for i in [0..1] )
 
   _onDragStart: =>
-    console.log "starting the fucking drag"
-    console.log @svgElement
     @svgElement.attr("data-selected", true).front()
 
   _onDrag: (e) =>
