@@ -13,7 +13,9 @@ class @PointController extends EventEmitter
     @svgElement = @parent.groups.points[@svgType]("M0,0L0,0")
     @svgElement.attr(class: "implicit-point")
 
-    @kernelElement.on "move", @_onMove
+    @kernelElement
+      .on("move", @_onMove)
+      .on("delete", @_onDelete)
 
     @$node = $(@svgElement.node)
       .touchInterface(offset: @_dragOffset, center: "touch[0]")
@@ -64,3 +66,8 @@ class @PointController extends EventEmitter
   _onMove: =>
     @svgElement[k] @kernelElement[k] for k in ['x', 'y']
 
+  _onDelete: =>
+    @$node.remove()
+    @svgElement.remove()
+    @$node = null
+    @svgElement = null

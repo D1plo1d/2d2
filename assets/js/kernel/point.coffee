@@ -47,14 +47,14 @@ class kernel.Point extends kernel.SketchElement
     @[k] = @_coincidentPoint[k] for k in ['x', 'y']
 
   mergeCoincidentPoints: ->
-    # @merge(@_coincidentPoint) if @_coincidentPoint?
+    @merge(@_coincidentPoint) if @_coincidentPoint?
     @coincidentPoint = null
 
   merge: (p2) ->
     return if p2.isDeleted() or @isDeleted()
     $nodes = $().add(p2.$node).add(@$node)
     for point in [@, p2]
-      point.emit "merge", deadPoint: p2, mergedPoint: @
+      point.emit "merge", point, deadPoint: p2, mergedPoint: @
     p2.delete()
 
 # Default snapping distance for all points

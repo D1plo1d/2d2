@@ -24,12 +24,12 @@ class kernel.SketchElement extends EventEmitter
 
     # emit a beforeDelete event and check if deletion is prevented
     @_deleting = true
-    @emit "beforeDelete", originalTarget: originalTarget
+    @emit "beforeDelete", @, originalTarget: originalTarget
     return unless @_deleting
     @_deleted = true
 
     # delete the sketch element
-    @emit "delete"
+    @emit "delete", @, originalTarget: originalTarget
     @emit "diff", type: "delete"
     @removeEvent() # (removes all event listeners)
 
