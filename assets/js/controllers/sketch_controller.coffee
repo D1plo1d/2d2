@@ -19,9 +19,13 @@ class @SketchController extends EventEmitter
     @$svg.removeAttr("height")
     # Initializing the groups
     attrs = ['stroke-dasharray', 'stroke-width']
-    for k in ["text", "shapes", "guides", "points"]
-      @groups[k] = @draw.group scaled: k != 'text', unscaledAttrs: attrs, class: "#{k}-group"
-      # @groups[k] = @draw.group scaled: true, unscaledAttrs: attrs, class: "#{k}-group"
+    @_initGroup(k, attrs) for k in ["text", "shapes", "guides", "points"]
+
+  _initGroup: (k, attrs) ->
+    @groups[k] = @draw.group
+      scaled: k != 'text'
+      unscaledAttrs: attrs
+      class: "#{k}-group"
 
   _keyboardEvents: -> @__keyboardEvents ?= [
     # Delete and Cancel

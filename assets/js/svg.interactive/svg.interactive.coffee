@@ -76,7 +76,7 @@ class InteractiveSVG
     e.preventDefault()
 
   _onPinch: (e) =>
-    console.log "pinch!"
+    # console.log "pinch!"
     # console.log e
     # touch = e.gesture?.position
     # touch = {x: touch[0], y: touch[1]}
@@ -97,12 +97,12 @@ class InteractiveSVG
     # console.log "interactive start"
     # console.log e
     # console.log "interactive end"
-    console.log "pinch offset:"
-    console.log @_pinchOffset
+    # console.log "pinch offset:"
+    # console.log @_pinchOffset
 
     # if @_touchStart.touches != e.gesture?.touches?.length
     #   @_fingersChangeHandler(e)
-    console.log e.gesture.position
+    # console.log e.gesture.position
     for i in [0,1]
       @_position[i] = e.gesture.position[i] - @_pinchOffset[i]
     @_updateTranslations()

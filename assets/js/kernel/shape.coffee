@@ -16,12 +16,7 @@ class kernel.Shape extends kernel.SketchElement
     @on "delete", @_onDelete
 
     # setup each predefined point
-    @add p for p in @points
-
-  _init: (opts) =>
-    @emit "beforeInitialize"
-    initialized = true
-    @emit "initialize"
+    @add p, true for p in @points
 
   add: (p, eventsOnly = false) ->
     @emit "beforeAddPoint", p
@@ -34,7 +29,8 @@ class kernel.Shape extends kernel.SketchElement
   showGuides: (value = true) ->
     @_updateAttr "visibleGuides", value, false: "hideGuides", true: "showGuides"
 
-  _onDelete: ->
+  _onDelete: (originalTarget) =>
+    console.log @points
     point.delete(originalTarget) for point in @points
 
 
@@ -59,7 +55,7 @@ class kernel.Shape extends kernel.SketchElement
 
   _togglePointEvents: (point, toggle) ->
     # point deletion -> deletes this shape as well
-    point[toggle]("beforedelete", @_onBeforePointDelete.fill(point))
+    point[toggle]("beforeDelete", @_onBeforePointDelete.fill(point))
     # point merging -> switch over to the new point
     point[toggle]("merge", @_onPointMerge.fill(point))
 

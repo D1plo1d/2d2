@@ -1,14 +1,17 @@
 class kernel.Sketch extends EventEmitter
   # All the points in the sketch
-  points: []
+  points: null
   # All the shapes in the sketch
-  shapes: []
+  shapes: null
   # All the constraints in the sketch
-  constraints: []
+  constraints: null
   # The currently selected points, shapes and constraints
-  selected: []
+  selected: null
+  # The diff of inputs made since the previous constraint solver update
+  _diffs: null
 
   constructor: (string) ->
+    @[a] = [] for a in ['points', 'shapes', 'constraints', 'selected', '_diffs']
     deserialize(string) if string?
 
   add: (obj) ->
@@ -17,7 +20,17 @@ class kernel.Sketch extends EventEmitter
       when kernel.Point then "point"
       when kernel.Constraint then "constraint"
     @["#{type}s"].push obj
+    obj.sketch = @
+    @_addDiffListener(type, obj) if type != "shape"
     @emit "add", obj, type
+
+  _addDiffListener: (type, obj) ->
+    id = @["#{type}s"].indexOf(obj)
+    fn = @_onDiff.fill id: id, objectType: type
+    obj.on "diff", fn
+
+  _onDiff: (objInfo, diff) =>
+    @_diffs.push Object.merge {}, objInfo, diff
 
   select: (shape) ->
     # if the element is included in the selected shapes then
@@ -58,6 +71,21 @@ class kernel.Sketch extends EventEmitter
   deleteSelection: ->
     @cancel()
     s.delete() for s in @_selectedParentShapes()
+
+  # Sends the changes to the kernel since the last request to the constraint 
+  # solver as a single, atomic change set.
+  requestConstraintsUpdate: ->
+    # Note: This is so that we can combine multiple inputs (such as on a 
+    # touch screen) and create useful results without bashing the constraint 
+    # solver with partial updates.
+
+    # TODO: send the diff to the constraint solver
+
+    # Resetting the diff
+    @_diffs = []
+
+  _receiveConstraintsUpdate: (diffs) ->
+    console.log diffs
 
   serialize: () ->
     JSON.stringify

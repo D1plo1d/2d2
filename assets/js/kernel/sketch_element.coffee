@@ -1,12 +1,9 @@
 class kernel.SketchElement extends EventEmitter
+  sketch: null
   selected: false
 
   constructor: (opts) ->
     @[k] = v || @[k] for k, v of opts
-
-    # Move the contruction of this element to the end of the event queue
-    # so that event listeners can be added after instantiation.
-    setTimeout @_init.fill(opts), 0
 
   select: (value = true) ->
     @_updateAttr "selected", value, false: "unselect", true: "select"
@@ -29,12 +26,17 @@ class kernel.SketchElement extends EventEmitter
     @_deleting = true
     @emit "beforeDelete", originalTarget: originalTarget
     return unless @_deleting
+    @_deleted = true
 
     # delete the sketch element
     @emit "delete"
+    @emit "diff", type: "delete"
     @removeEvent() # (removes all event listeners)
 
   # Prevents this sketch element from being deleted if it was in the process of
   # being deleted.
   preventDeletion: ->
     @_deleting = false
+
+  isDeleted: ->
+    @_deleted == true

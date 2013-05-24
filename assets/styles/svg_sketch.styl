@@ -18,7 +18,7 @@ $active_color = #37D
     stroke-width 2px /* This is overriden in js */
     stroke $inactive_color
     fill $inactive_color
-    .active, *:hover
+    [data-selected], *:hover
       stroke $active_color
       fill $active_color
 
@@ -33,8 +33,10 @@ $active_color = #37D
     stroke-width: 10px
     stroke-linecap: round
 
-    path:hover
-      cursor: pointer
+    path:hover, path[data-selected]
+      cursor pointer
+      stroke $active_color
+      fill $active_color
 
   .guides-group
     stroke-width 1px

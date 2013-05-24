@@ -7,6 +7,9 @@ class @PointController extends EventEmitter
   svgType: "path"
 
   constructor: (@kernelElement, @parent) ->
+    @sketch = @parent.sketch
+    @draw = @parent.draw
+
     @svgElement = @parent.groups.points[@svgType]("M0,0L0,0")
     @svgElement.attr(class: "implicit-point")
 
@@ -14,7 +17,9 @@ class @PointController extends EventEmitter
 
     @$node = $(@svgElement.node)
       .touchInterface(offset: @_dragOffset, center: "touch[0]")
+      .on("dragstart", @_onDragStart)
       .on("drag2", @_onDrag)
+      .on("dragend", @_onDragEnd)
 
     @_onMove()
     @initPlacement() unless @kernelElement.placed
@@ -22,6 +27,7 @@ class @PointController extends EventEmitter
   initPlacement: ->
     @svgElement.hide()
     @$node.touchInterface("startDragging")
+    @_onDragStart()
     @$node.one "drag2", => @svgElement.show()
     @$node.one "dragend", => @kernelElement.place()
 
@@ -35,6 +41,11 @@ class @PointController extends EventEmitter
 
     return ( svgPos[i] + svgDimensions[i]/2 for i in [0..1] )
 
+  _onDragStart: =>
+    console.log "starting the fucking drag"
+    console.log @svgElement
+    @svgElement.attr("data-selected", true).front()
+
   _onDrag: (e) =>
     e.stopPropagation()
 
@@ -43,7 +54,12 @@ class @PointController extends EventEmitter
 
     position = ( e.gesture.position[i] / zoom - sketchPos[i] for i in [0..1] )
 
-    @kernelElement.move.apply @kernelElement, position
+    snapDistance = kernel.Point.snapDistance * @draw.zoom()
+    @kernelElement.move position[0],position[1], true, snapDistance
+
+  _onDragEnd: =>
+    @kernelElement.mergeCoincidentPoints()
+    @$node.attr("data-selected", null)
 
   _onMove: =>
     @svgElement[k] @kernelElement[k] for k in ['x', 'y']
