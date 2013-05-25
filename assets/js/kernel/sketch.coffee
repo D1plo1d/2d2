@@ -22,6 +22,7 @@ class kernel.Sketch extends EventEmitter
     @["#{type}s"].push obj
     obj.sketch = @
     @_addDiffListener(type, obj) if type != "shape"
+    obj.on "delete", @_onObjDelete.fill type
     @emit "add", obj, type
 
   _addDiffListener: (type, obj) ->
@@ -31,6 +32,9 @@ class kernel.Sketch extends EventEmitter
 
   _onDiff: (objInfo, diff) =>
     @_diffs.push Object.merge {}, objInfo, diff
+
+  _onObjDelete: (type, obj) =>
+    @["#{type}s"].remove obj
 
   select: (shape) ->
     # if the element is included in the selected shapes then
@@ -62,7 +66,7 @@ class kernel.Sketch extends EventEmitter
   _selectedParentShapes: ->
     @selected.subtract @_selectedChildPoints()
 
-  cancel: ->
+  cancel: =>
     s.unselect() for s in @selected
     s.cancel() for s in @_selectedParentShapes()
     @selected = []

@@ -14,7 +14,6 @@ class kernel.Shape extends kernel.SketchElement
     @on "removePoint", @_onRemovePoint
     @on "unselect", @_onUnselect
     @on "delete", @_onDelete
-
     # setup each predefined point
     @add p, true for p in @points
 
@@ -32,12 +31,17 @@ class kernel.Shape extends kernel.SketchElement
 
   # True if the shape has all it's points defined
   isFullyDefined: ->
-    @points.length == @requiredPointCount()
+    return true if @_previouslyFullyDefined
+    hasEnoughPoints = @points.length == @requiredPointCount()
+    @_previouslyFullyDefined = hasEnoughPoints and @points.last()?.placed
 
   requiredPointCount: ->
     switch @type
       when "line" then 2
       when "circle" then 1
+
+  cancel: =>
+    @delete(@) unless @isFullyDefined()
 
   # cancels the current operation on this shape (if any)
   _onUnselect: =>
@@ -54,12 +58,17 @@ class kernel.Shape extends kernel.SketchElement
     point[toggle]("beforeDelete", @_onBeforePointDelete)
     # point merging -> switch over to the new point
     point[toggle]("merge", @_onPointMerge)
+    point[toggle]("place", @_onPointPlace)
+
+  _onPointPlace: =>
+    @emit "fullyDefine" if !@_previouslyFullyDefined and @isFullyDefined()
 
   _onPointMerge: (point, e) =>
     return unless point == e.deadPoint
-    @points[@points.indexOf(point)] = e.mergedPoint
+    @points[@points.indexOf(e.deadPoint)] = e.mergedPoint
     @emit "removePoint", e.deadPoint
     @emit "addPoint", e.mergedPoint
+    console.log @points
 
   _onBeforePointDelete: (point, originalTarget) =>
     return @delete() if @_deleting or @points.include originalTarget

@@ -3,6 +3,7 @@ class @SketchController extends EventEmitter
   groups: []
   draw: null
   $svg: null
+  shift: false
 
   constructor: (@sketch) ->
     @_initSVG()
@@ -31,8 +32,15 @@ class @SketchController extends EventEmitter
     ["keyup", null, "del", @sketch.deleteSelection],
     ["keyup", null, "esc", @sketch.cancel],
     # Zoom
-    ["keypress", null, "+", @draw.incrementZoom.fill(+0.1)],
-    ["keypress", null, "-", @draw.incrementZoom.fill(-0.1)]]
+    ["keypress", null, "+", @_incZoom ?= @draw.incrementZoom.fill(+0.1)],
+    ["keypress", null, "-", @_decZoom ?= @draw.incrementZoom.fill(-0.1)]
+    ["keydown", null, "shift", @_onShiftDown ?= => @shift = true],
+    ["keyup", null, "shift", @_onShiftUp ?= => @shift = false]]
+
+  _onShiftDown: =>
+    console.log "fucking hell"
+    console.log @shift
+    @shift = true
 
   _initMenu: ->
     $(".btn-point")

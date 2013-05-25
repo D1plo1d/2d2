@@ -12,8 +12,8 @@ class @LineController extends @ShapeController
     when 0, 1
       super
       if n == 1 then @_initSvgElement()
-    when 2 # there is no point with index 2, finish the line creation
-      @_afterCreate()
+    # when 2 # there is no point with index 2, finish the line creation
+    #   @_afterCreate()
 
   _initSvgElement: ->
     @svgElement = @parent.groups.shapes[@svgType](@_path(), true).hide()
@@ -25,12 +25,10 @@ class @LineController extends @ShapeController
     p = @kernelElement.points
     "M#{p[0].x}, #{p[0].y}L#{p[1].x},#{p[1].y}"
 
-  _afterCreate: =>
-    # TODO: move this to shape or line?
-    @shift = false
-    $(document).bind "keydown", "shift", => @shift = true
-    $(document).bind "keyup", "shift", => @shift = false
-
-    $(@$svg).bind "aftercreate", (e) =>
-      if @shift and e.shape.shapeType == "line"
-        @line(points: [ e.shape.points[1] ])
+  _onFullyDefine: =>
+    console.log "fully defined!"
+    console.log @parent.shift
+    return unless @parent.shift
+    @sketch.add new kernel.Shape
+      type: "line"
+      points: [@kernelElement.points[1]]

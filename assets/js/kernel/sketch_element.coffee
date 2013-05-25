@@ -4,6 +4,9 @@ class kernel.SketchElement extends EventEmitter
 
   constructor: (opts) ->
     @[k] = v || @[k] for k, v of opts
+    setTimeout(@_init, 0)
+
+  _init: ->
 
   select: (value = true) ->
     @_updateAttr "selected", value, false: "unselect", true: "select"
@@ -32,6 +35,9 @@ class kernel.SketchElement extends EventEmitter
     @emit "delete", @, originalTarget: originalTarget
     @emit "diff", type: "delete"
     @removeEvent() # (removes all event listeners)
+
+  cancel: ->
+    return
 
   # Prevents this sketch element from being deleted if it was in the process of
   # being deleted.

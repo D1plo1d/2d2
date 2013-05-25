@@ -3,7 +3,7 @@ class kernel.Point extends kernel.SketchElement
   placed: false
 
   place: () ->
-    placed = true
+    @placed = true
     @emit "place"
 
   # Moves this point. If input is set to true (default) this move will be 
@@ -28,7 +28,7 @@ class kernel.Point extends kernel.SketchElement
 
     for p2 in @sketch.points
       # check that the other point is not this point
-      continue if @ == p2
+      continue if @ == p2 or p2.isDeleted()
 
       # check if the other point is within snapping distance of this point and 
       # it is the nearest point

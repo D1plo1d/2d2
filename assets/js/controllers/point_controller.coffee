@@ -65,7 +65,7 @@ class @PointController extends EventEmitter
     @svgElement[k] @kernelElement[k] for k in ['x', 'y']
 
   _onDelete: =>
-    @$node.remove()
     @svgElement.remove()
+    @$node.remove()
     @$node = null
     @svgElement = null

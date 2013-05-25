@@ -17,6 +17,8 @@ class @ShapeController extends EventEmitter
 
     fullyDefined = @kernelElement.isFullyDefined()
 
+    @_onAddPoint p for p in @kernelElement.points
+
     # call the shape's create method with the ui flag for shape-specific
     # intialization
     @_create(fullyDefined)
