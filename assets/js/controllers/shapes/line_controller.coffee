@@ -26,8 +26,6 @@ class @LineController extends @ShapeController
     "M#{p[0].x}, #{p[0].y}L#{p[1].x},#{p[1].y}"
 
   _onFullyDefine: =>
-    console.log "fully defined!"
-    console.log @parent.shift
     return unless @parent.shift
     @sketch.add new kernel.Shape
       type: "line"

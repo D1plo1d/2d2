@@ -68,7 +68,6 @@ class kernel.Shape extends kernel.SketchElement
     @points[@points.indexOf(e.deadPoint)] = e.mergedPoint
     @emit "removePoint", e.deadPoint
     @emit "addPoint", e.mergedPoint
-    console.log @points
 
   _onBeforePointDelete: (point, originalTarget) =>
     return @delete() if @_deleting or @points.include originalTarget

@@ -54,7 +54,7 @@ class @PointController extends EventEmitter
 
     position = ( e.gesture.position[i] / zoom - sketchPos[i] for i in [0..1] )
 
-    snapDistance = kernel.Point.snapDistance * @draw.zoom()
+    snapDistance = kernel.Point.snapDistance / @draw.zoom()
     @kernelElement.move position[0],position[1], true, snapDistance
 
   _onDragEnd: =>
