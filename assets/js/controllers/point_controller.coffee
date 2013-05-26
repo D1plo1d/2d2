@@ -36,10 +36,14 @@ class @PointController extends EventEmitter
   _dragOffset: =>
     $svg = @parent.$svg
 
-    svgPos = @parent.$svg.position()
-    svgPos = [svgPos.left, svgPos.top]
+    svgPos = @draw.domPosition()
+    console.log svgPos
+    svgPos = [svgPos.x, svgPos.y]
 
-    svgDimensions = [$svg.width(), $svg.height()]
+    svgDimensions = [@draw.width(), @draw.height()]
+    console.log "dimensions for point:"
+    console.log svgPos
+    console.log svgDimensions
 
     return ( svgPos[i] + svgDimensions[i]/2 for i in [0..1] )
 

@@ -17,6 +17,9 @@ class InteractiveSVG
     @_draw.incrementZoom = @incrementZoom
     @_draw.zoom = @zoom
     @_draw.position = @position
+    @_draw.width = @width
+    @_draw.height = @height
+    @_draw.domPosition = @domPosition
 
     @_onResize()
     $(window).on "resize", @_onResize
@@ -34,6 +37,15 @@ class InteractiveSVG
 
 
   # SVG Overrides
+
+  width: =>
+    @_dimensions.x
+
+  height: =>
+    @_dimensions.y
+
+  domPosition: =>
+    @_svgPageCoords
 
   group: (opts = scaled: true) =>
     g = group: @_draw._group(), opts: opts
@@ -74,8 +86,6 @@ class InteractiveSVG
   _onMouseWheel: (e, delta, deltaX, deltaY) =>
     deltaY = (if deltaY > 0 then +1 else -1) * 90 unless isMacLike
     @_zoomLevel *= 1+deltaY/1000
-    console.log "zoom increment!"
-    console.log deltaY
 
     @_updateZoom()
     e.preventDefault()
@@ -116,13 +126,13 @@ class InteractiveSVG
   _onResize: () =>
     p = @$svg.position()
     @_svgPageCoords = {x: p.left, y: p.top}
+    console.log @_svgPageCoords
     # For some reason this won't work on firefox
     # @_dimensions = {x: @$svg.width(), y: @$svg.height()}
     # Very application specific, but it works in firefox. Fuck it.
     @_dimensions =
-      x: $("body").width()
-      y: $("body").height() - $("header").height()
-    console.log @_dimensions
+      x: $("body").width() - @_svgPageCoords.x
+      y: $("body").height() - @_svgPageCoords.y
 
     @$svg.attr width: @_dimensions.x, height: @_dimensions.y
     @_draw.viewbox x: 0, y: 0, width: @_dimensions.x, height: @_dimensions.y
