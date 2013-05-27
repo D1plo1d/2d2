@@ -13,7 +13,7 @@
         , "stylus": "git://github.com/blakeembrey/stylus.git#file-glob"
         , "asset-rack": "git://github.com/D1plo1d/asset-rack.git#master"
         , "sails": "git://github.com/D1plo1d/sails.git#master"
-        , "bower": "0.6.x"
+        , "bower": "*"
     },
     "scripts": {
         "start":"coffee app.coffee",
