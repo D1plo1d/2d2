@@ -13,9 +13,11 @@
         , "stylus": "git://github.com/blakeembrey/stylus.git#file-glob"
         , "asset-rack": "git://github.com/D1plo1d/asset-rack.git#master"
         , "sails": "git://github.com/D1plo1d/sails.git#master"
+        , "bower": "0.6.x"
     },
     "scripts": {
-        "start":"coffee app.coffee"
+        "start":"coffee app.coffee",
+        "postinstall": "./node_modules/bower/bin/bower install"
     },
     "main": ".app.js",
     "repository": "",
