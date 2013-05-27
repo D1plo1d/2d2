@@ -4,7 +4,8 @@
     "version": "0.0.0",
     "description": "a Sails application",
     "dependencies": {
-          "passport": "*"
+        "coffee-script": ">= 1.0.0"
+        , "passport": "*"
         , "passport-local": "*"
         , "optimist": "*"
         , "jade": "*"
