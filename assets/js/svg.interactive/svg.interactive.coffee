@@ -5,7 +5,7 @@ class InteractiveSVG
   _zoomLevel: 1
   _position: [0, 0]
   _dimension: {x: 0, y: 0} # The width and height of the svg element
-  _svgPageCoords: {}
+  _svgPageCoords: null
   _groups: []
   _previousDisplacement: 0
 
@@ -124,9 +124,9 @@ class InteractiveSVG
     @_onPinch(e) if e.gesture.pinchDelta != 0
 
   _onResize: () =>
-    p = @$svg.position()
-    @_svgPageCoords = {x: p.left, y: p.top}
-    console.log @_svgPageCoords
+    unless @_svgPageCoords?
+      p = @$svg.position()
+      @_svgPageCoords = {x: p.left, y: p.top}
     # For some reason this won't work on firefox
     # @_dimensions = {x: @$svg.width(), y: @$svg.height()}
     # Very application specific, but it works in firefox. Fuck it.

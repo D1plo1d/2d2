@@ -37,13 +37,9 @@ class @PointController extends EventEmitter
     $svg = @parent.$svg
 
     svgPos = @draw.domPosition()
-    console.log svgPos
     svgPos = [svgPos.x, svgPos.y]
 
     svgDimensions = [@draw.width(), @draw.height()]
-    console.log "dimensions for point:"
-    console.log svgPos
-    console.log svgDimensions
 
     return ( svgPos[i] + svgDimensions[i]/2 for i in [0..1] )
 

@@ -37,9 +37,11 @@ class touchInterface
     @$el.trigger "dragstart", e if triggerDragStart
     @_onPinchStart() if @start.touchCount > 1
 
+  _onResize: =>
+    @start = null
+
   _onPinchStart: (e) =>
     @_originalPinchDistance = @_getDistance(@start.touches[0], @start.touches[1])
-
 
   _onTouchMove: (e) =>
     @_resetStart e, @start? if !@start? or e.originalEvent.touches?.length != @start.touchCount
@@ -76,6 +78,7 @@ class touchInterface
   _toggleEvents: (toggle) ->
     $(window)[toggle]("mousemove touchmove", @_onTouchMove)
     $(window)[toggle]("touchend mouseup", @stopDragging)
+    $(window)[toggle]("resize", @_onResize)
 
   # calculate the distance between two touches
   # @param   {Touch}     touch1
