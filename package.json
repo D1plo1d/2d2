@@ -15,8 +15,7 @@
         , "sails": "git://github.com/D1plo1d/sails.git#master"
     },
     "scripts": {
-        "start": "node .app.js",
-        "debug": "node debug .app.js"
+        "start":"coffee app.coffee"
     },
     "main": ".app.js",
     "repository": "",
