@@ -20,10 +20,10 @@
       , "angular-sanitize": "~1.0.5"
 
       , "svg.js": "*"
-      , "svg.draggable.js": "git@github.com:wout/svg.draggable.js.git"
+      , "svg.draggable.js": "wout/svg.draggable.js"
       , "hammerjs": "*"
       , "jquery-mousewheel": "*"
       , "eventEmitter": "*"
-      , "jquery-hotkeys": "git@github.com:jeresig/jquery.hotkeys.git"
+      , "jquery-hotkeys": "jeresig/jquery.hotkeys"
     }
 }
