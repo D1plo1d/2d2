@@ -42,6 +42,7 @@ nbproject
 # Bower
 ########################
 /components
+/bower_components
 
 
 ########################
